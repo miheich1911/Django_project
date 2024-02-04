@@ -1,0 +1,59 @@
+1.	u1 = User.objects.create_user(username="Andrey")
+	u2 = User.objects.create_user(username="Olga")
+
+
+2.	a1 = Author.objects.create(user=u1)
+	a2 = Author.objects.create(user=u2)
+
+
+3.	cat1 = Category.objects.create(cat_name='политика') 
+	cat2 = Category.objects.create(cat_name='спорт')    
+	cat3 = Category.objects.create(cat_name='экономика')
+	cat4 = Category.objects.create(cat_name='наука')    
+
+
+4.	p1 = Post.objects.create(author=a1, post_type='NW', title='Песков: в ЕС лепят из России образ врага для оправдания помощи ВСУ', text='Европейские политики создают из России образ 	врага для того, чтобы оправдать увеличение расходов на поддержку Украины. Об этом заявил пресс-секретарь российского лидера Дмитрий Песков.')
+
+	p2 = Post.objects.create(author=a2, post_type='AR', title='Дисквалификации Валиевой', text='Я считаю дисквалификацию Валиевой полностью политизированным решением')
+
+	p3 = Post.objects.create(author=a1, post_type='NW', title='Назван самый вредный способ приготовления кофе', text='По мнению профессора Гетеборгского университета Дага Телле, самым 	вредным способом приготовления кофе является френч-пресс, который набирает популярность в России. Дело в том, что такой напиток может повышать уровень холестерина в крови и содержать вредные для человека вещества.')
+
+
+5.	p1.Category.add(cat1)
+	p2.category.add(cat1)                                                                                                                                               
+	p2.category.add(cat2)
+	p3.category.add(cat3) 
+
+
+6.	c1 = Comment.objects.create(post=p1 , user=u2 , text='Хорошо, что Орбан наложил вето на помощь Киеву')
+	c2 = Comment.objects.create(post=p1 , user=u1 , text='Согласен')
+	c3 = Comment.objects.create(post=p2 , user=u1 , text='Негодяи')
+	c4 = Comment.objects.create(post=p3 , user=u2 , text='Хорошо, что я не пью кофе')
+
+
+7.	p1.like()
+	p2.dislike() 
+	p3.like()
+	c1.like() 
+	c2.like()
+	c4.dislike() 
+
+
+8.	a1.update_rating() 
+	a2.update_rating() 
+
+
+9.	best_user = Author.objects.order_by('-rating').values('user__username', 'rating').first()
+	best_user
+
+
+10.	bp = Post.objects.order_by('-rating').first() 
+	Post.objects.order_by('-rating').values('date_in','author__user__username', 'rating', 'title').first() 	
+	Post.objects.order_by('-rating').values_list('date_in', 'author__user__username', 'rating', 'title').first()
+	bp.preview()  
+
+
+11.	c = Comment.objects.filter(post=bp) 
+	c.values('date_in', 'user__username', 'rating', 'text')    
+
+
