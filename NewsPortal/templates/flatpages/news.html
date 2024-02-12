@@ -1,0 +1,32 @@
+{% extends 'flatpages/default.html' %}
+{% load censor %}
+{% load custom_tags %}
+
+{% block title %}
+News
+{% endblock title %}
+
+{% block content %}
+    <h1>Новости</h1>
+    <h3>Количество новостей:{{ news|length }}</h3>
+    <h3>{% current_time '%b %d %Y' %}</h3>
+    <hr>
+    {% if news %}
+        <table>
+            <tr>
+                <td><u>Заголовок</u></td>
+                <td><u>Время публикации</u></td>
+                <td><u>Описание</u></td>
+            {% for nw in news %}
+            </tr>
+            <tr>
+                <td>{{ nw.title|censor }}</td>
+                <td>{{ nw.date_in|date:'d M Y' }}</td>
+                <td>{{ nw.text|truncatewords:20|censor }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h2>Нет новостей</h2>
+    {% endif %}
+{% endblock content %}

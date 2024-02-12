@@ -1,0 +1,24 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_tags %}
+
+{% block title %}
+News
+{% endblock title %}
+
+{% block content %}
+    <h1> Новость c идентификатором №{{ news_id.id }}</h1>
+    <h3>{% current_time '%b %d %Y' %}</h3>
+    <hr>
+        <table>
+            <tr>
+                <td><u>Заголовок</u></td>
+                <td><u>Время публикации</u></td>
+                <td><u>Описание</u></td>
+            </tr>
+            <tr>
+                <td>{{ news_id.title }}</td>
+                <td>{{ news_id.date_in|date:'d M Y' }}</td>
+                <td>{{ news_id.text}}</td>
+            </tr>
+        </table>
+{% endblock content %}
