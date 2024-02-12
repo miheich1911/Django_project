@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.db.models import Sum
 from django.db.models.functions import Coalesce
+from .resourses import *
 
 
 class Author(models.Model):
@@ -16,20 +17,18 @@ class Author(models.Model):
         self.rating = posts_rating * 3 + comments_rating + posts_comments_rating
         self.save()
 
+    def __str__(self):
+        return self.user
+
 
 class Category(models.Model):
     cat_name = models.CharField(max_length=25, unique=True)
 
+    def __str__(self):
+        return self.cat_name
+
 
 class Post(models.Model):
-    news = 'NW'
-    articles = 'AR'
-
-    POST_TYPES = [
-        (news, "Новость"),
-        (articles, "Статья")
-    ]
-
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     post_type = models.CharField(max_length=2, choices=POST_TYPES,
                                  default=news)
@@ -49,6 +48,9 @@ class Post(models.Model):
 
     def preview(self):
         return self.text[:125]
+
+    def __str__(self):
+        return self.title
 
 
 class PostCategory(models.Model):
@@ -70,3 +72,4 @@ class Comment(models.Model):
     def dislike(self):
         self.rating -= 1
         self.save()
+
